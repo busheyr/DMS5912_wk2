@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>DMS5912 — Week 2: Acute Care Pharmacology</title><style>
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 62.5%; height:100%; max-width:100vw; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { margin:0; height:100%; background:#ffffff; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size:1.8rem; line-height:1.8; color:#111; overflow:hidden; position:relative; }
+.background-dots { position:fixed; top:0; right:0; width:60%; opacity:0.15; pointer-events:none; z-index:0; }
+.lesson-shell { height:100%; display:flex; flex-direction:column; position:relative; z-index:1; }
+.lesson-shell__header { padding:1.8rem 3rem; background:#fff; border-bottom:1px solid #ececec; display:flex; align-items:center; justify-content:space-between; gap:2rem; }
+.lesson-shell__title { font-size:2.2rem; font-weight:700; line-height:1.2; }
+.lesson-shell__meta { font-size:1.5rem; color:#555; white-space:nowrap; }
+.lesson-shell__body { flex:1; overflow-y:auto; padding:5rem 0; }
+.lesson-page { width:100%; max-width:104rem; margin:0 auto; padding:0 3.2rem; }
+:root { --space-xs:1.4rem; --space-sm:2.2rem; --space-md:3.4rem; --space-lg:5rem; --space-xl:7rem; --blue:#007CFF; --green:#0b6b3a; --ink:#111; --muted:#60656f; --soft:#f5f8fb; --line:#dde4ee; }
+.lesson-block { margin-block:var(--space-xl); padding:var(--space-lg); background:#fff; border-radius:.8rem; }
+.lesson-block.alt { background:#f7f9fb; box-shadow:0 .4rem 1.6rem rgba(0,0,0,.04); }
+.lesson-block.tint { background:#f4f9ff; box-shadow:0 .4rem 1.6rem rgba(0,0,0,.04); }
+.lesson-block h1 { font-size:4rem; line-height:1.12; margin:0 0 var(--space-sm); }
+.lesson-block h2 { font-size:2.8rem; margin:0 0 var(--space-sm); line-height:1.25; }
+.lesson-block h3 { font-size:2rem; margin:0 0 1rem; line-height:1.35; }
+.lesson-block h4 { font-size:1.8rem; margin:0 0 .6rem; line-height:1.35; }
+.lesson-block p { margin:0 0 var(--space-sm); }
+.lesson-block ul { margin:0 0 var(--space-sm); padding-left:2.4rem; }
+.lesson-block li { margin:.6rem 0; }
+.cover-screen { position:fixed; inset:0; background:#fff; z-index:5000; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:2rem; transition:opacity .35s ease, visibility .35s ease; }
+.cover-screen.hidden { opacity:0; visibility:hidden; }
+.cover-title { font-size:3.6rem; line-height:1.15; font-weight:750; margin-bottom:3rem; max-width:78rem; }
+.cover-btn { padding:1.2rem 2.4rem; font-size:1.8rem; border-radius:.6rem; border:0; background:var(--blue); color:#fff; cursor:pointer; font-weight:700; transition:background .2s ease; }
+.cover-btn:hover { background:#0066d1; }
+.hero { border-top:.8rem solid var(--blue); background:linear-gradient(180deg,#fff,#f7fbff); }
+.callout { border-left:.6rem solid var(--blue); padding:1.8rem 2.2rem; background:#f4f9ff; border-radius:.4rem; margin:var(--space-sm) 0; font-weight:650; }
+.callout2 { text-align:center; font-size:2.3rem; line-height:1.6; color:#1a1a1a; max-width:76rem; margin:3.6rem auto; padding:2rem 1rem; position:relative; }
+.callout2::before { content:""; width:6rem; height:.3rem; background:var(--green); border-radius:1rem; display:block; margin:0 auto 2rem; }
+.circle-list { padding-left:0 !important; list-style:none; margin-top:2rem; display:grid; gap:1.2rem; }
+.circle-list li { display:flex; align-items:center; margin:0; }
+.circle-num { width:3.2rem; height:3.2rem; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; margin-right:1rem; flex:0 0 auto; }
+.split { display:grid; grid-template-columns:minmax(0,1fr) minmax(28rem,.8fr); gap:3rem; align-items:start; }
+.panel { border:1px solid var(--line); border-radius:.8rem; padding:2.2rem; background:#fff; }
+.panel.green { border-left:.5rem solid var(--green); }
+.grid-3, .grid-4, .grid-2 { display:grid; gap:1.8rem; margin-top:2rem; }
+.grid-2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.grid-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.grid-4 { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.mini-card { border:1px solid var(--line); border-radius:.8rem; padding:2rem; background:#fff; min-height:100%; }
+.mini-card h3, .mini-card h4 { color:#0d3155; }
+.reveal-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(23rem,1fr)); gap:1.6rem; margin-top:2rem; }
+.reveal-card { border:1px solid var(--line); border-radius:.8rem; background:#fff; overflow:hidden; }
+.reveal-btn { width:100%; border:0; background:#eef6ff; color:#10243a; padding:1.6rem; font-size:1.8rem; font-weight:700; text-align:left; cursor:pointer; }
+.reveal-content { display:none; padding:1.8rem; }
+.reveal-card.open .reveal-content { display:block; }
+.accordion { border:1px solid #d9e1ea; border-radius:.8rem; overflow:hidden; background:#fff; }
+.accordion-item + .accordion-item { border-top:1px solid #d9e1ea; }
+.accordion-header { background:#f7f9fb; padding:1.6rem 1.8rem; cursor:pointer; font-size:1.8rem; font-weight:700; }
+.accordion-content { display:none; padding:1.8rem; background:#fff; }
+.accordion-item.open .accordion-content { display:block; }
+.lesson-tabs { display:flex; flex-wrap:wrap; gap:1rem; margin-top:1.6rem; }
+.tab-btn { padding:.9rem 1.5rem; border-radius:.7rem; border:1px solid #cbd7e5; background:#fff; cursor:pointer; font-size:1.6rem; font-weight:650; }
+.tab-btn.active { background:#eaf4ff; border-color:#7dbaff; color:#07315b; }
+.tab-content { display:none; margin-top:1.8rem; }
+.tab-content.active { display:block; }
+.card-sequence { position:relative; margin:3rem auto; width:100%; max-width:82rem; }
+.card-sequence::before { content:""; position:absolute; left:2rem; top:0; width:2px; height:100%; background:#d9e1ea; z-index:0; }
+.sequence-card { position:relative; background:#fff; border-radius:.8rem; padding:2.2rem 2.6rem; margin:2.4rem 0 2.4rem 4rem; box-shadow:0 4px 18px rgba(0,0,0,.07); border-left:.4rem solid var(--green); z-index:2; }
+.sequence-date { color:var(--green); font-weight:800; font-size:1.6rem; margin-bottom:.6rem; }
+.choice-block { display:grid; grid-template-columns:28rem 1fr; gap:2rem; align-items:start; }
+.choice-menu { display:grid; gap:1rem; }
+.choice-btn { border:1px solid #cbd7e5; background:#fff; text-align:left; padding:1.4rem 1.6rem; border-radius:.7rem; font-size:1.65rem; font-weight:700; cursor:pointer; }
+.choice-btn.active { border-color:var(--blue); background:#eaf4ff; }
+.choice-panel { display:none; }
+.choice-panel.active { display:block; }
+.comparison { display:grid; grid-template-columns:1fr 1fr; gap:1.8rem; margin-top:2rem; }
+.comparison .panel:first-child { border-top:.5rem solid #7a8a9a; }
+.comparison .panel:last-child { border-top:.5rem solid var(--green); }
+.quote-line { border-block:1px solid var(--line); padding:2.4rem 0; font-weight:700; color:#1b2d40; }
+.section-divider { text-align:center; background:#fff; border-top:.6rem solid var(--green); box-shadow:0 .4rem 1.6rem rgba(0,0,0,.04); }
+.section-divider h2 { margin-bottom:0; }
+.continue-wrap { width:100%; margin:3rem 0; }
+.continue-btn { width:100%; border:0; border-radius:.8rem; background:#006649; color:#fff; min-height:6.4rem; font-size:1.9rem; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 .4rem 1.6rem rgba(0,102,73,.18); transition:background .2s ease, transform .2s ease; }
+.continue-btn:hover { background:#00563e; transform:translateY(-1px); }
+.continue-btn:focus-visible { outline:.3rem solid #7dbaff; outline-offset:.3rem; }
+.template-note { color:var(--muted); font-size:1.6rem; }
+.code-note { display:block; margin-top:1rem; padding:1.4rem 1.6rem; border:1px dashed #cbd7e5; border-radius:.8rem; background:#fbfdff; color:#425466; font-size:1.55rem; }
+@media (max-width:850px) {
+  .lesson-shell__header { align-items:flex-start; flex-direction:column; }
+  .split, .grid-2, .grid-3, .grid-4, .choice-block, .comparison { grid-template-columns:1fr; }
+  .lesson-block { padding:3rem 2rem; margin-block:4rem; }
+  .lesson-page { padding:0 1.8rem; }
+}
+.primary,.cover-btn{padding:1.15rem 2rem;border:0;border-radius:.6rem;background:var(--blue);color:#fff;cursor:pointer;font-size:1.7rem;font-weight:700}.primary:hover,.cover-btn:hover{background:#0066d1}.secondary{padding:1rem 1.5rem;border:1px solid #aebdcd;border-radius:.6rem;background:#fff;cursor:pointer;font-size:1.6rem;font-weight:650}.options{display:grid;gap:1rem;margin:2rem 0}.option{display:flex;gap:1rem;align-items:flex-start;border:1px solid var(--line);border-radius:.7rem;background:#fff;padding:1.3rem 1.5rem;cursor:pointer}.option:hover{border-color:#7dbaff}.option input{margin-top:.55rem;accent-color:var(--blue)}.feedback{display:none;margin-top:1.6rem;padding:1.4rem 1.6rem;border-radius:.6rem;font-weight:650}.feedback.show{display:block}.feedback.correct{background:#e7f6ed;color:#07562d;border-left:.5rem solid var(--green)}.feedback.incorrect{background:#fff0f0;color:#7c1e1e;border-left:.5rem solid var(--red)}.assessment-actions{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.8rem}
+:root{--blue:#006bdb;--red:#a32626}body{height:auto;overflow:auto}.lesson-shell{height:auto;min-height:100vh}.lesson-shell__body{overflow:visible;padding:2rem 0}.lesson-block{margin-block:4rem}button,textarea{font:inherit}:focus-visible{outline:3px solid #006bdb;outline-offset:4px}.lesson-nav{display:flex;flex-wrap:wrap;gap:1rem 2rem;margin-top:2rem}.lesson-nav a{color:#075594;font-size:1.6rem}.eyebrow{font-size:1.5rem;color:#536477;font-weight:700}.circle-list li{align-items:flex-start}.circle-num{margin-top:.4rem}.dimension{margin:2rem 0}.dimension summary{padding:1.4rem 1.8rem;background:#eef6ff;font-weight:650;cursor:pointer}.dimension details p{padding:1.8rem;margin:0}.dimension h3{color:#0d3155}.reflection{margin:2.5rem 0}.reflection label{display:block;margin-bottom:1rem}.reflection textarea{width:100%;min-height:15rem;resize:vertical;padding:1.5rem;border:1px solid #aebdcd;border-radius:.6rem;background:white;color:#111}.assessment+.assessment{border-top:1px solid var(--line);padding-top:3rem;margin-top:3rem}fieldset{border:0;padding:0;margin:0;min-width:0}legend{font-weight:650;padding:0}.skip-link{position:absolute;top:-10rem;left:1rem;background:white;padding:1rem;z-index:10}.skip-link:focus{top:1rem}.mini-card h3{font-size:1.9rem}.notes-status{min-height:2rem;font-size:1.6rem;color:#07562d}@media(max-width:850px){.lesson-block h1{font-size:3.2rem}.lesson-shell__meta{white-space:normal}}@media print{body{font-size:12pt}.lesson-block{padding:1rem;margin:2rem 0;break-inside:avoid}.lesson-nav,.assessment-actions,.check,.skip-link{display:none}details::details-content{display:block}.reflection textarea{min-height:12rem}}
+
+.match-card{margin:2rem 0;padding:2.2rem;border:1px solid var(--line);border-radius:.8rem;background:white}.match-card label{display:block;font-weight:650;margin-bottom:1rem}.match-card select{width:100%;font:inherit;padding:1rem;border:1px solid #aebdcd;border-radius:.5rem;background:white}.match-card .feedback{font-size:1.65rem}.framework-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.8rem}.framework-grid .mini-card{border-top:4px solid var(--blue)}.framework-grid .mini-card:nth-child(2){border-color:#0b6b3a}.framework-grid .mini-card:nth-child(3){border-color:#84521d}.framework-grid .mini-card:nth-child(4){border-color:#7758a0}.comparison ul{margin-bottom:0}.comparison h3{margin-bottom:2rem}.skill-section{margin:2.2rem 0}.skill-section h3{color:#0d3155}@media(max-width:850px){.framework-grid{grid-template-columns:1fr}}
+
+.framework{margin:2rem 0}.framework h3{color:#0d3155}.risk{margin:2rem 0;padding:2.4rem;background:white;border:1px solid var(--line);border-radius:.8rem}.risk legend{font-weight:700;color:#0d3155;font-size:2rem}.risk fieldset{margin-top:2rem}.risk .option{font-size:1.65rem}.risk .feedback{font-size:1.65rem}.governance details{border:1px solid var(--line);border-radius:.8rem;background:white;margin:1.6rem 0}.governance summary{padding:1.8rem;cursor:pointer;font-weight:700}.governance details p{padding:0 1.8rem 1.8rem;margin:0}.match-summary{font-weight:650;color:#07562d}.reference-heading{font-size:1.5rem;color:#536477;margin-bottom:1rem}.primary:disabled{opacity:.6;cursor:default}@media print{.risk{break-inside:avoid}.governance details::details-content{display:block}}
+
+.factory-map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin:2rem 0}.factory-map article{background:#eaf4ff;border-top:4px solid var(--blue);padding:1.5rem;font-size:1.55rem}.factory-map h4{font-size:1.6rem}.factory-map p{margin:0}.factory-detail{margin:1.5rem 0;border:1px solid var(--line);border-radius:.8rem;background:#fff}.factory-detail summary{cursor:pointer;font-weight:700;padding:1.7rem;color:#0d3155}.factory-detail .detail-body{padding:0 1.7rem 1.7rem}.protocol{padding:1.8rem;background:#eaf4ff;border-left:5px solid var(--blue);margin:2rem 0}.risk-columns{display:grid;grid-template-columns:1fr 1fr;gap:2rem}.risk-columns li{margin-bottom:1.8rem}.control{margin:1.4rem 0;padding:1.8rem;background:white;border-left:4px solid var(--green)}@media(max-width:850px){.factory-map,.risk-columns{grid-template-columns:1fr}}
+
+.term-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem}.term-grid .panel{border-top:4px solid var(--blue)}.governance-card{margin:2rem 0;padding:2.4rem;border:1px solid var(--line);border-radius:.8rem;background:white}.governance-card h3{color:#0d3155}.scenario{padding:2.4rem;margin:2rem 0;border:1px solid var(--line);border-radius:.8rem;background:white}.scenario select{font:inherit;width:100%;padding:1rem;border:1px solid #aebdcd;border-radius:.6rem;margin:1rem 0}.scenario label{font-weight:700}.scenario .strategy{margin-top:1.5rem;border-left:4px solid var(--green);padding:1.5rem;background:#e7f6ed}.strategy[hidden]{display:none}.action-list{display:grid;gap:1.4rem}.action-list label{display:flex;align-items:flex-start;gap:1.4rem;padding:1.8rem;border:1px solid var(--line);border-radius:.8rem;background:white;cursor:pointer}.action-list input{margin-top:.7rem;accent-color:var(--green)}.action-list label:has(input:checked){background:#e7f6ed}.action-list input:checked+span{color:#07562d}.eyebrow{letter-spacing:.03em} .assessment-actions{margin-top:1rem}@media(max-width:850px){.term-grid{grid-template-columns:1fr}}@media print{.strategy[hidden]{display:block}.scenario select,.scenario button{display:none}}
+
+.media{margin:2.5rem 0;border:1px solid var(--line);border-radius:.8rem;padding:1.5rem;background:#fff}.media iframe{display:block;width:100%;height:48rem;border:0}.media a{color:#075594;font-size:1.6rem}.subsection{margin:3.5rem 0}.subsection h3{color:#0d3155;border-bottom:2px solid var(--line);padding-bottom:1rem}.drug-heading{font-size:1.9rem;color:#0d3155;margin-top:2.4rem}.safety{border-left:5px solid #a32626;background:#fff0f0;padding:1.8rem;margin:1.8rem 0}.dose{background:#f4f9ff;padding:1.6rem;border-radius:.6rem}.source-list li{margin-bottom:1.5rem}.match-row{border-bottom:1px solid var(--line);padding:2rem 0}.match-row label{display:block;margin-bottom:1rem}.match-row select{font:inherit;width:100%;background:white;padding:1rem;border:1px solid #aebdcd;border-radius:.6rem}.row-status{font-size:1.6rem;margin-top:1rem}.row-status:empty{display:none}@media(max-width:600px){.media iframe{height:34rem}.lesson-shell__title{font-size:1.8rem}}@media print{.media iframe{display:none}.subsection{break-inside:avoid}}
+</style></head><body><a class="skip-link" href="#intro">Skip to content</a><div class="lesson-shell"><header class="lesson-shell__header"><div class="lesson-shell__title">DMS 5912: Acute Care Pharmacology</div><div class="lesson-shell__meta">Week 2</div></header><main class="lesson-shell__body"><div class="lesson-page"><section class="lesson-block hero" id="intro"><p class="eyebrow">DMS 5912 · Acute Care Pharmacology · Week 2</p><h1>Cardiac Resuscitation, Advanced Antiarrhythmics &amp; Hypertensive Emergencies</h1><nav class="lesson-nav" aria-label="Sections"><a href="#section-1">Resuscitation & Antiarrhythmics</a><a href="#section-2">Atrial Fibrillation & WPW</a><a href="#section-3">Hypertensive Emergencies</a><a href="#section-4">Pulmonary Embolism</a><a href="#practice">Mechanism Practice</a></nav></section>
+<section class="lesson-block " id="section-1"><h2>Section 1: ACLS Resuscitation, Electrophysiology &amp; Advanced Antiarrhythmic Kinetics</h2>
+<div class="subsection"><h3>1.1 Electrophysiologic Mechanisms &amp; Vaughan Williams Classification</h3>
+<p>Your heart beats because of electrical signals (called action potentials) that travel through heart cells. These electrical signals are created when microscopic gates—called ion channels—open and close to let charged particles like sodium, potassium, and calcium flow in and out of the cells:</p>
+<ul class="source-list">
+<li>Sodium channels act like a fast start switch, letting sodium in to quickly jump-start the electrical signal.</li>
+<li>Calcium channels let calcium in to keep the signal going and help the heart muscle contract.</li>
+<li>Potassium channels let potassium out to reset the electrical signal so the heart cell can relax and get ready for the next beat.</li>
+</ul>
+<p>Antiarrhythmic drugs are medications used to fix irregular heartbeats. They work by blocking specific channels to do one of three things:</p>
+<ul class="source-list">
+<li>Stop heart cells from firing electrical signals on their own too quickly (suppressing automaticity).</li>
+<li>Slow down how fast the electrical signal travels through the heart (decreasing conduction speed).</li>
+<li>Increase the &quot;cool-down&quot; time a heart cell needs before it can fire another electrical signal (prolonging the refractory period).</li>
+</ul>
+<h4>VAUGHAN WILLIAMS ANTIARRHYTHMIC CLASSIFICATION MATRIX</h4>
+<figure class="media"><iframe src="https://drive.google.com/file/d/19Sw1DQAkW8PRkY45Ur6m274rUAzZPHqS/preview" title="Vaughan Williams Antiarrhythmic Classification Matrix" loading="lazy" allowfullscreen></iframe><figcaption><a href="https://drive.google.com/file/d/19Sw1DQAkW8PRkY45Ur6m274rUAzZPHqS/preview" target="_blank" rel="noopener noreferrer">Open Vaughan Williams Antiarrhythmic Classification Matrix</a></figcaption></figure>
+</div>
+<div class="subsection"><h3>1.2 Resuscitation Antiarrhythmics in Cardiac Arrest &amp; Refractory Ventricular Fibrillation</h3>
+<p>During pulseless Ventricular Tachycardia (pVT) or Ventricular Fibrillation (VF) refractory to initial shocks and epinephrine:</p>
+<ul class="source-list">
+<li>Amiodarone: Exhibits all four Vaughan Williams mechanisms. Primary acute effect in cardiac arrest is Phase 0 sodium channel blockade and beta-blockade.</li>
+<li>Cardiac Arrest Dosing: 300 mg IV/IO rapid bolus; second dose 150 mg IV/IO for persistent VF/pVT.</li>
+<li>Perfusion Dosing: 150 mg IV over 10 minutes, followed by 1 mg/min continuous infusion for 6 hours, then 0.5 mg/min for 18 hours.</li>
+<li>Clinical Pearl: Solvent formulations (polysorbate 80) can cause severe hypotensive vasodilation; non-solvent formulations (captisol-based) or slow infusions mitigate this risk.</li>
+<li>Lidocaine: Class IB agent that selectively binds inactivated fast I_&quot;Na&quot;  channels in depolarized, ischemic ventricular myocardium.</li>
+<li>Dosing: 1.0–1.5 mg/kg IV/IO first dose; repeat 0.5–0.75 mg/kg IV/IO at 5–10 minute intervals to a maximum dose of 3.0 mg/kg. Continuous maintenance infusion at 1–4 mg/min.</li>
+<li>Advantage: Does not induce systemic vasodilation or myocardial depression to the degree seen with amiodarone.</li>
+</ul>
+</div>
+</section>
+<section class="lesson-block alt" id="section-2"><h2>Section 2: Rate vs. Rhythm Control in Acute Atrial Fibrillation with RVR</h2>
+<div class="subsection"><h3>2.1 Acute Rate Control Pharmacotherapy</h3>
+<figure class="media"><iframe src="https://drive.google.com/file/d/1wVWnvUI2sD7xhHud1LmSi9WdyXm7J_bZ/preview" title="Acute Rate Control Pharmacotherapy" loading="lazy" allowfullscreen></iframe><figcaption><a href="https://drive.google.com/file/d/1wVWnvUI2sD7xhHud1LmSi9WdyXm7J_bZ/preview" target="_blank" rel="noopener noreferrer">Open Acute Rate Control Pharmacotherapy</a></figcaption></figure>
+<h4 class="drug-heading">(Diltiazem (Calcium Channel Blocker)</h4>
+<ul class="source-list">
+<li>How it works: Blocks calcium gates in the heart&#x27;s central electrical gatekeeper (the AV node). This slows down how fast electrical signals pass through and gives heart cells more time to rest between beats.</li>
+<li>Dosing: Give 0.25 mg per kg of body weight injected into the vein over 2 minutes (a typical first dose is 15 to 20 mg). If needed, give a second dose of 0.35 mg per kg (usually 25 mg) after 15 minutes. Follow up with a continuous IV drip at 5 to 15 mg per hour.</li>
+</ul>
+<div class="safety">When NOT to use it (Contraindication): Do not give to patients with severe heart failure or a very weak heart pump (ejection fraction under 40%), because it weakens how strongly the heart muscle squeezes.</div>
+<h4 class="drug-heading">Metoprolol Tartrate (Beta-Blocker)</h4>
+<ul class="source-list">
+<li>How it works: Blocks adrenaline and stress signals going to the heart&#x27;s beta-1 receptors to slow the heart rate down.</li>
+<li>Dosing: Give 5 mg as a slow IV injection over 2 minutes. Can be repeated every 5 minutes up to a maximum total dose of 15 mg.</li>
+</ul>
+<h4 class="drug-heading">Digoxin</h4>
+<ul class="source-list">
+<li>How it works: Blocks a specific pump in heart cells, which stimulates the body&#x27;s natural &quot;rest-and-digest&quot; nerve (vagus nerve) to slow electrical signals passing through the heart&#x27;s central gatekeeper.</li>
+<li>When to use it (Indication): Used to slow down a fast heart rate in patients with sudden, severe heart failure and low blood pressure who cannot safely take calcium channel blockers or beta-blockers.</li>
+</ul>
+</div>
+<div class="subsection"><h3>2.2 Rhythm Control &amp; Wolff-Parkinson-White (WPW) Emergency</h3>
+<ul class="source-list">
+<li>Procainamide: Class IA antiarrhythmic. First-line agent for hemodynamically stable monomorphic VT and pre-excited atrial fibrillation (WPW with AF).</li>
+<li>WPW Mechanism: Slows conduction down the accessory pathway (Bundle of Kent) and AV node.</li>
+</ul>
+<div class="safety">Critical Safety Warning: AV nodal blockers (Adenosine, Diltiazem, Verapamil, Beta-blockers, Digoxin) are strictly contraindicated in WPW with Atrial Fibrillation. Blocking the AV node forces all atrial impulses down the unhindered accessory pathway, precipitating Ventricular Fibrillation.</div>
+<ul class="source-list">
+<li>Procainamide Dosing: 20–50 mg/min IV infusion until arrhythmia is suppressed, hypotension ensues, QRS widens &gt;50%, or max dose of 17 mg/kg is reached. Maintenance infusion: 1–4 mg/min.</li>
+</ul>
+</div>
+</section>
+<section class="lesson-block " id="section-3"><h2>Section 3: Rapid-Acting Intravenous Antihypertensives in Hypertensive Emergencies</h2>
+<p>Hypertensive emergency is defined as severe blood pressure elevation (typically &gt;180/120&quot; mm Hg&quot; ) accompanied by acute target-organ damage (aortic dissection, acute coronary syndrome, acute renal failure, intracranial hemorrhage, hypertensive encephalopathy).</p>
+<h4>RAPID-ACTING IV ANTIHYPERTENSIVE MATRIX</h4>
+<figure class="media"><iframe src="https://drive.google.com/file/d/177rX8IsDB3w8u_FFNVAFj1jhwZGBGDoG/preview" title="Rapid-Acting IV Antihypertensive Matrix" loading="lazy" allowfullscreen></iframe><figcaption><a href="https://drive.google.com/file/d/177rX8IsDB3w8u_FFNVAFj1jhwZGBGDoG/preview" target="_blank" rel="noopener noreferrer">Open Rapid-Acting IV Antihypertensive Matrix</a></figcaption></figure>
+<div class="subsection"><h3>3.1 Clevidipine &amp; Nicardipine Kinetics</h3>
+<ul class="source-list">
+<li>Clevidipine: Ultra-short-acting dihydropyridine calcium channel blocker supplied as a 20% lipid emulsion. Metabolized by blood and tissue esterases, making its clearance completely independent of renal or hepatic function.</li>
+<li>Key Advantage: Ultra-rapid onset and offset allow precise, minute-to-minute blood pressure titration without overshoot hypotension.</li>
+<li>Nicardipine: Highly selective vascular calcium channel blocker that reduces SVR without depressing cardiac contractility or expanding venous capacitance.</li>
+</ul>
+</div>
+<div class="subsection"><h3>3.2 Sodium Nitroprusside Toxicity (Cyanide &amp; Thiocyanate)</h3>
+<p>Nitroprusside releases nitric oxide (NO) directly, dilating both arterioles and venules.</p>
+<ul class="source-list">
+<li>Metabolic Degradation: Each nitroprusside molecule contains 5 cyanide groups. Hemoglobin converts nitroprusside to cyanmethemoglobin and releases free cyanide.</li>
+</ul>
+<div class="safety">Toxicity Clinical Picture: Prolonged high-dose infusions (&gt;2&quot; mcg/kg/min&quot;  for &gt;24-48&quot; hours&quot; ) or renal/hepatic impairment cause cyanide accumulation, poisoning cytochrome c oxidase in mitochondria and producing severe uncompensated lactic acidosis, altered mental status, and cellular hypoxia.</div>
+<ul class="source-list">
+<li>Antidote Protocol: Administer Sodium Thiosulfate (enhances rhodanese conversion of cyanide to thiocyanate) or Hydroxocobalamin (binds cyanide to form cyanocobalamin / Vitamin B12).</li>
+</ul>
+</div>
+</section>
+<section class="lesson-block alt" id="section-4"><h2>Section 4: Venous Thromboembolism: Fibrinolytic vs. Anticoagulant Strategies in PE</h2>
+<p>Risk stratification in acute Pulmonary Embolism (PE) determines the balance between bleeding risk and hemodynamic restoration.</p>
+<figure class="media"><iframe src="https://drive.google.com/file/d/1tw5zPgjoDh0v3cksQb7bzv1aKmYfN0Dl/preview" title="Pulmonary Embolism Risk Stratification" loading="lazy" allowfullscreen></iframe><figcaption><a href="https://drive.google.com/file/d/1tw5zPgjoDh0v3cksQb7bzv1aKmYfN0Dl/preview" target="_blank" rel="noopener noreferrer">Open Pulmonary Embolism Risk Stratification</a></figcaption></figure>
+<div class="subsection"><h3>4.1 Parenteral Anticoagulation Regimens</h3>
+<ul class="source-list">
+<li>Unfractionated Heparin (UFH): Binds antithrombin III (AT-III), potentiating inactivation of thrombin (Factor IIa) and Factor Xa.</li>
+<li>Bolus: 80 units/kg IV bolus; Maintenance: 18 units/kg/hr continuous infusion titrated to aPTT (1.5–2.5x control) or anti-Xa levels (0.3-0.7&quot; IU/mL&quot; ).</li>
+<li>First-Line Choice: Preferred when systemic fibrinolysis or surgical embolectomy is anticipated, due to its short half-life (30-90&quot; minutes&quot; ) and complete reversibility with Protamine Sulfate (1 mg protamine per 100 units UFH).</li>
+<li>Low-Molecular-Weight Heparin (Enoxaparin): Higher ratio of anti-Xa to anti-IIa activity (3:1).</li>
+<li>Dosing: 1 mg/kg SC every 12 hours (or 1.5 mg/kg SC daily). Reduce to 1 mg/kg SC once daily if &quot;CrCl&quot;&lt;30&quot; mL/min&quot; .</li>
+</ul>
+</div>
+<div class="subsection"><h3>4.2 Systemic vs. Catheter-Directed Fibrinolysis</h3>
+<ul class="source-list">
+<li>Alteplase (recombinant Tissue Plasminogen Activator / r-tPA): Converts clot-bound plasminogen to plasmin, degrading fibrin matrices.</li>
+<li>Massive PE Regimen: Alteplase 100 mg IV continuous infusion over 2 hours.</li>
+<li>Cardiac Arrest / Impending Arrest Regimen: 50 mg IV rapid bolus over 2 minutes; repeat 50 mg bolus in 15 minutes if ROSC is not achieved.</li>
+</ul>
+<div class="safety">Absolute Contraindications to Systemic Fibrinolysis:</div>
+<ul class="source-list">
+<li>Prior intracranial hemorrhage at any time.</li>
+<li>Known structural cerebrovascular lesion or malignant intracranial neoplasm.</li>
+<li>Ischemic stroke within the preceding 3 months.</li>
+<li>Active internal bleeding (excluding menses).</li>
+<li>Suspected aortic dissection or acute severe facial/head trauma within 3 months.</li>
+</ul>
+</div>
+</section>
+<section class="lesson-block tint" id="practice"><h2>Mechanism Practice</h2><p>Match each mechanism to its medication, then check your choices.</p>
+<div class="match-row" data-answer="Alteplase"><label for="mechanism-0">Converts clot-bound plasminogen to plasmin, degrading fibrin matrices.</label><select id="mechanism-0"><option value="">Choose a medication…</option><option>Metoprolol Tartrate</option><option>Alteplase</option><option>Unfractionated Heparin (UFH)</option></select><div class="row-status" aria-live="polite"></div></div>
+<div class="match-row" data-answer="Unfractionated Heparin (UFH)"><label for="mechanism-1">Binds antithrombin III (AT-III), potentiating inactivation of thrombin (Factor IIa) and Factor Xa.</label><select id="mechanism-1"><option value="">Choose a medication…</option><option>Metoprolol Tartrate</option><option>Alteplase</option><option>Unfractionated Heparin (UFH)</option></select><div class="row-status" aria-live="polite"></div></div>
+<div class="match-row" data-answer="Metoprolol Tartrate"><label for="mechanism-2">Blocks adrenaline and stress signals going to the heart&#x27;s beta-1 receptors to slow the heart rate down.</label><select id="mechanism-2"><option value="">Choose a medication…</option><option>Metoprolol Tartrate</option><option>Alteplase</option><option>Unfractionated Heparin (UFH)</option></select><div class="row-status" aria-live="polite"></div></div>
+<div class="assessment-actions"><button type="button" class="primary" id="checkMatches">Check matches</button><button type="button" class="secondary" id="resetMatches">Reset matches</button></div><div class="feedback" id="matchFeedback" role="status"></div></section></div></main></div><script>
+const rows=[...document.querySelectorAll('.match-row')],feedback=document.getElementById('matchFeedback');
+document.getElementById('checkMatches').addEventListener('click',()=>{
+ if(rows.some(row=>!row.querySelector('select').value)){feedback.className='feedback show incorrect';feedback.textContent='Choose a medication for each mechanism before checking.';return;}
+ let count=0;rows.forEach(row=>{const good=row.querySelector('select').value===row.dataset.answer;count+=good?1:0;row.querySelector('.row-status').textContent=good?'Correct.':'Not quite. Review the medication’s mechanism and try again.';row.querySelector('select').setAttribute('aria-invalid',String(!good));});
+ feedback.className='feedback show '+(count===3?'correct':'incorrect');feedback.textContent=count+' of 3 mechanisms matched correctly.';
+});
+function clear(row){row.querySelector('.row-status').textContent='';row.querySelector('select').removeAttribute('aria-invalid');feedback.className='feedback';feedback.textContent='';}
+rows.forEach(row=>row.querySelector('select').addEventListener('change',()=>clear(row)));
+document.getElementById('resetMatches').addEventListener('click',()=>{rows.forEach(row=>{row.querySelector('select').value='';clear(row);});rows[0].querySelector('select').focus();});
+</script></body></html>
